@@ -15,7 +15,7 @@
             <img src="./assets/cube factory.png" alt=""><h2><b>Cube</b>Factory</h2>
         </div>
         <div class="form-div">
-            <h2>Welcome Back</h2>
+            <h2>Register</h2>
             <p>Please enter your details</p>
             <a class="google-signin" href="/auth/google"><img src="./assets/Google.png" alt="">Sign in with Google</a>
 
@@ -23,20 +23,18 @@
                 <span>or</span>
               </div>
 
-            <form action="/login" method="post">
+            <form action="/register" method="post">
+                <label for="first-name">First name</label>
+                <input type="text" name="firstname" id="first-name">
+                <label for="last-name">Last name</label>
+                <input type="text" name="lastname" id="last-name">
                 <label for="email">Email address</label>
-                <input type="text" name="username" id="email">
+                <input type="text" name="email" id="email">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
-                <div class="under-input">
-                    <label class="remember" for="remember">
-                        <input type="checkbox" name="remember" value="30" id="remember"> Remember for 30 days
-                    </label>
-                    <span class="forgot">Forgot password</span>
-                </div>                
-                <button type="submit">Sign in</button>
+                <button type="submit">Register</button>
                 <span class="form-signup">
-                    Don't have an account? <a href="/register">Sign up</a>
+                    Already have an account? <a href="/login">Login</a>
                 </span>
             </form>
 

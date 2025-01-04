@@ -1,0 +1,193 @@
+* {
+	font-family: Poppins, sans-serif;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	margin: 0 auto;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: stretch;
+}
+
+.first {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+	align-items: center;
+}
+
+.logo-div {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;
+	gap: 5px;
+	padding: 15px 13px;
+}
+
+.logo-div img {
+	width: 30px;
+	padding-left: 15px;
+}
+
+.logo-div h2 {
+	font-size: 16px;
+	font-weight: 500;
+	font-style: italic;
+}
+
+.second {
+	position: relative;
+	width: 43%;
+	background-image: url(./assets/background.jpg);
+	background-size: cover;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: end;
+	color: white;
+	overflow: hidden;
+}
+
+.second::after {
+	content: " "; /* Required for pseudo-elements */
+	position: absolute; /* Position relative to the .second container */
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(6, 5, 70, 0.322);
+	z-index: 4; /* Ensure it sits above other content */
+	pointer-events: none; /* Prevent interaction with the overlay */
+}
+
+.second .bottom-text {
+	padding: 60px;
+	z-index: 90;
+}
+
+.form-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 25vw;
+	border: 1px solid #00000029;
+	padding: 35px;
+	border-radius: 5px;
+	box-shadow: 8px 19px 14px -11px #00000026;
+	margin-top: 20px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	box-sizing: border-box;
+	margin-top: 20px;
+}
+
+form input {
+	border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.459);
+	padding: 8px 6px;
+}
+
+.google-signin {
+	padding: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.459);
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0;
+	font-size: 17px;
+	text-decoration: none;
+	color: black;
+	border-radius: 5px;
+}
+
+.google-signin:hover {
+	background-color: black;
+	border: 1px solid black;
+	cursor: pointer;
+	color: white;
+}
+
+.google-signin img {
+	width: 20px;
+}
+
+form button {
+	padding: 10px 20px;
+	background-color: black;
+	color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 17px;
+	margin-top: 10px;
+	font-weight: 600;
+}
+
+form button:hover {
+	padding: 10px 20px;
+	background-color: rgba(0, 0, 0, 0);
+	border: 1px solid black;
+	border-radius: 5px;
+	color: black;
+	font-size: 17px;
+	margin-top: 10px;
+	cursor: pointer;
+	font-weight: 600;
+}
+label.remember {
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+	align-items: center;
+}
+
+input#remember {
+	width: 15px;
+	height: 15px;
+}
+
+.separator {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px; /* Spacing between lines and text */
+}
+
+.separator::before,
+.separator::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background-color: #ccc; /* Adjust color as needed */
+}
+
+.separator span {
+	padding: 0 10px;
+	color: #555; /* Adjust text color */
+	font-size: 14px; /* Adjust text size */
+}
+
+span.forgot {
+	color: #0000a5;
+	text-decoration: underline;
+}
+
+span.forgot:hover {
+	cursor: pointer;
+}
+
+.under-input {
+	display: flex;
+	justify-content: space-between;
+}
