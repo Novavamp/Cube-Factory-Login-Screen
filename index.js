@@ -10,17 +10,19 @@ import env from "dotenv";
 
 const app = express();
 const port = 3000;
-const saltRounds = 10;
+const saltRounds = 10; //number of rounds to salt passwords
 
+//env intialization
 env.config();
 
+//session
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
         cookie: {
-            maxAge: 1000 * 60 * 60 * 30,
+            maxAge: 1000 * 60 * 60 * 30, //expiry for the cookie
         },
     })
 );
@@ -30,6 +32,7 @@ app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(passport.session());
 
+//database credentials
 const db = new pg.Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
@@ -39,17 +42,21 @@ const db = new pg.Client({
 });
 db.connect();
 
+//login route for the app
 app.get("/", (req, res) => {
     res.render("index.ejs");
 });
 
+//home route behind an authentication
 app.get("/home", async (req, res) => {
     if (req.isAuthenticated()) {
+        //if user is authenticated, get user details from the database
         const result = await db.query("SELECT * FROM users WHERE username = $1", [req.user.username]);
         const user = result.rows[0];
+        //render the home page with the user details passed to the front end
         res.render("home.ejs", { photo: user.photo_url, name: user.firstname });
     } else {
-        res.redirect("/");
+        res.redirect("/"); //redirect to the login page if user is not authenticated
     }
 });
 
@@ -61,15 +68,18 @@ app.get("/login", (req, res) => {
     res.redirect("/");
 });
 
+//Google OAuth login
 app.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"]
 }));
 
+//Google OAuth callback
 app.get("/auth/google/home", passport.authenticate("google", {
     successRedirect: "/home",
     failureRedirect: "/login"
 }));
 
+//Logout handler
 app.get("/logout", (req, res) => {
     req.logout((err) => {
         if (err) console.log(err);
@@ -77,6 +87,7 @@ app.get("/logout", (req, res) => {
     });
 });
 
+//User Registration
 app.post("/register", async (req, res) => {
     const firstName = req.body.firstname;
     const lastName = req.body.lastname;
@@ -84,17 +95,21 @@ app.post("/register", async (req, res) => {
     const password = req.body.password;
 
     try {
+        //get user information from the database
         const result = await db.query("SELECT * FROM users WHERE username = $1", [email]);
-        if (result.rows.length === 0) {
+        if (result.rows.length === 0) { //If user does not exist
+            //Hash the password and store in the database
             bcrypt.hash(password, saltRounds, async (err, hash) => {
                 if (err) {
                     console.log("Error hashing password", err);
                 } else {
+                    //if hashing is successful, insert user details to the database
                     const result = await db.query(`INSERT INTO users 
                         (username, firstname, lastname, password) 
                         VALUES ($1, $2, $3, $4) RETURNING *`, [email, firstName, lastName, hash]
                     );
                     const user = result.rows[0];
+                    //log the user in and redirect to the home page
                     req.login(user, (err) => {
                         if (err) console.log(err);
                         console.log("Success");
@@ -103,6 +118,7 @@ app.post("/register", async (req, res) => {
                 }
             });
         } else {
+            //if user already exists in the database
             console.log("User already exists");
             res.send("User already exists");
             // res.redirect("/login");
@@ -112,18 +128,21 @@ app.post("/register", async (req, res) => {
     }
 });
 
+//login post route
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/home",
     failureRedirect: "/login"
 }
 ));
 
+//Local strategy for loggin in
 passport.use("local", new Strategy(async function verify(username, password, cb) {
     try {
         const result = await db.query("SELECT * FROM users WHERE username = $1", [username]);
-        if (result.rows.length > 0) {
+        if (result.rows.length > 0) { //if user exists
             const user = result.rows[0];
             const hashedPassword = user.password;
+            //compare the password inputed by the user and the password stored in the database
             bcrypt.compare(password, hashedPassword, (err, result) => {
                 if (err) {
                     return cb(err)
@@ -136,6 +155,7 @@ passport.use("local", new Strategy(async function verify(username, password, cb)
                 }
             });
         } else {
+            //if user does not exist
             return cb("User not found");
         }
     } catch (err) {
@@ -143,6 +163,7 @@ passport.use("local", new Strategy(async function verify(username, password, cb)
     }
 }));
 
+//Google OAuth strategy for login/register
 passport.use("google", new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -151,14 +172,15 @@ passport.use("google", new GoogleStrategy({
 }, async (accessToken, refreshToken, profile, cb) => {
     try {
         const result = await db.query("SELECT * FROM users where username = $1", [profile.email]);
-        if (result.rows.length === 0) {
+        if (result.rows.length === 0) { //if user does not exist
+            //add the user details to the database
             const newUser = await db.query(`INSERT INTO users (firstname, lastname, username, password, photo_url) 
             VALUES ($1, $2, $3, $4, $5) RETURNING *`,
                 [profile._json.given_name, profile._json.family_name, profile.email, "google-auth", profile._json.picture]);
             const user = newUser.rows[0];
-            return cb(null, user);
+            return cb(null, user); //return the user details without error
         } else {
-            return cb(null, result.rows[0]);
+            return cb(null, result.rows[0]); //if user exists, return user details without error
         }
     } catch (err) {
         console.log(err);
