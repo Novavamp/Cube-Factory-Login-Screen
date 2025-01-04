@@ -1,0 +1,88 @@
+* {
+	margin: 0;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	gap: 50px;
+	justify-content: space-between;
+	align-items: stretch;
+	height: 100vh;
+	width: 100%;
+}
+
+.first {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+}
+
+.logo-div {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;
+	gap: 5px;
+	padding: 15px;
+}
+
+.logo-div img {
+	width: 30px;
+}
+
+.second {
+	width: 50%;
+	background-image: url(../public/assets/background.jpg);
+	background-size: cover;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: end;
+	color: white;
+	padding: 0 0 40px 30px;
+}
+
+.form-div {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	justify-content: center;
+	padding: 160px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	box-sizing: border-box;
+}
+
+form input {
+	border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.459);
+}
+
+.google-signin {
+	padding: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.459);
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0;
+	font-size: 20px;
+	text-decoration: none;
+	color: black;
+	border-radius: 5px;
+}
+
+.google-signin img {
+	width: 20px;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cube Factory</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="first">
+            <div class="logo-div">
+                <img src="../public/assets/cube factory.png" alt=""><h2>Cube Factory</h2>
+            </div>
+            <div class="form-div">
+                <h2>Welcome Back</h2>
+                <p>Please enter your details</p>
+                <a class="google-signin" href="/auth/google"><img src="../public/assets/Google.png" alt="">Sign in with Google</a>
+
+                <hr>
+
+                <form action="/login" method="post">
+                    <label for="email">Email address</label>
+                    <input type="text" name="username" id="email">
+                    <label for="password">Password</label>
+                    <input type="password" name="passowrd" id="password">
+                    <label for="remember">
+                        <input type="checkbox" name="remember" id="remember"> Rememeber for 30 days
+                    </label>
+                    <button type="submit">Sign in</button>
+                    <span class="form-signup">
+                        Don't have an account? <a href="/register">Sign up</a>
+                    </span>
+                </form>
+
+            </div>
+        </div>
+        <div class="second">
+            <div class="bottom-text">
+                <h2>Bring your ideas to life</h2>
+                <p>Sign up for free and enjoy access to all features for 30 days. No credit card required</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
