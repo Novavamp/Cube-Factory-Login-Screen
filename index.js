@@ -11,6 +11,7 @@ import env from "dotenv";
 const app = express();
 const port = 3000;
 const saltRounds = 10; //number of rounds to salt passwords
+let day = 1; //Default cookie age (1day)
 
 //env intialization
 env.config();
@@ -22,7 +23,7 @@ app.use(
         resave: false,
         saveUninitialized: true,
         cookie: {
-            maxAge: 1000 * 60 * 60 * 30, //expiry for the cookie
+            maxAge: 1000 * 60 * 60 * 24 * day, //expiry for the cookie in days
         },
     })
 );
@@ -129,11 +130,16 @@ app.post("/register", async (req, res) => {
 });
 
 //login post route
-app.post("/login", passport.authenticate("local", {
+app.post("/login", (req, res, next) => {
+    const newDay = parseInt(req.body.remember); //Remember me input (value: 30 days)
+    if (newDay) {
+        day = newDay //Change the defailt 1 day to 30 days
+    }
+    next();
+}, passport.authenticate("local", {
     successRedirect: "/home",
     failureRedirect: "/login"
-}
-));
+}));
 
 //Local strategy for loggin in
 passport.use("local", new Strategy(async function verify(username, password, cb) {
