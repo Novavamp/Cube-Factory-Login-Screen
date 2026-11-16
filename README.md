@@ -1,4 +1,10 @@
-# Cube Factory Login Page Replica
+<div align="center">
+
+# Cube Factory Login Interface
+
+![Node.js](https://img.shields.io/badge/Node.js-runtime-339933?logo=nodedotjs&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-database-4169E1?logo=postgresql&logoColor=white)
+
+</div>
 
 ## Overview
 
